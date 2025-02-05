@@ -1,37 +1,33 @@
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
-import pandas as pd
-# Set up the Streamlit page
-st.set_page_config(layout="wide", initial_sidebar_state="expanded")
-# Initialize Snowflake session
-# session = get_active_session()
-from snowflake.snowpark import Session
-import streamlit as st
-
-# Snowflake credentials (from secrets.toml or environment variables)
-sf_options = {
-    "account": st.secrets["snowflake"]["account"],
-    "user": st.secrets["snowflake"]["user"],
-    "password": st.secrets["snowflake"]["password"],
-    "warehouse": st.secrets["snowflake"]["warehouse"],
-    "database": st.secrets["snowflake"]["database"],
-    "schema": st.secrets["snowflake"]["schema"],
-}
-
-# Initialize the Snowflake session
-session = Session.builder.configs(sf_options).create()
-
-import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.ensemble import RandomForestRegressor
-from snowflake.snowpark.context import get_active_session
+from snowflake.snowpark import Session
+
+# Set Streamlit page config
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
+
+# Function to establish a single Snowflake session
+@st.cache_resource
+def get_snowflake_session():
+    sf_options = {
+        "account": st.secrets["snowflake"]["account"],
+        "user": st.secrets["snowflake"]["user"],
+        "password": st.secrets["snowflake"]["password"],
+        "warehouse": st.secrets["snowflake"]["warehouse"],
+        "database": st.secrets["snowflake"]["database"],
+        "schema": st.secrets["snowflake"]["schema"],
+    }
+    return Session.builder.configs(sf_options).create()
+
+# Initialize the session only once
+session = get_snowflake_session()
 
 @st.cache_data
-def load_data(_session):
+def load_data():
     query = "SELECT * FROM FERTILIZER"
-    return _session.sql(query).to_pandas()
+    return session.sql(query).to_pandas()
 
 def prepare_data(df):
     df['Budget Cost/MT'] = pd.to_numeric(df['Budget Cost/MT'], errors='coerce')
@@ -45,7 +41,7 @@ def prepare_data(df):
     df.dropna(subset=['Cost_Efficiency_Ratio'], inplace=True)
     
     categorical_cols = ['PL_COP: Applicable', 'PL_COP: Applicable: PL', 
-                       'PL_COP: Applicable: SKU', 'M2_Material Type']
+                        'PL_COP: Applicable: SKU', 'M2_Material Type']
     label_encoders = {}
     for col in categorical_cols:
         le = LabelEncoder()
@@ -70,11 +66,11 @@ def train_model(df):
     
     return model, scaler, features
 
+# Streamlit UI
 st.title('Fertilizer Cost Prediction')
 
 try:
-    session = get_active_session()
-    df = load_data(session)
+    df = load_data()
     df, label_encoders = prepare_data(df)
     model, scaler, features = train_model(df)
 
@@ -83,7 +79,7 @@ try:
     input_data = {}
     
     categorical_cols = ['PL_COP: Applicable', 'PL_COP: Applicable: PL', 
-                       'PL_COP: Applicable: SKU', 'M2_Material Type']
+                        'PL_COP: Applicable: SKU', 'M2_Material Type']
     for col in categorical_cols:
         unique_values = pd.Series(label_encoders[col].inverse_transform(df[col].unique()))
         input_data[col] = st.selectbox(f'Select {col}', unique_values)
@@ -121,8 +117,3 @@ try:
 
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")
-    st.write("Debug info:")
-    if 'df' in locals():
-        st.write("Features:", features)
-        st.write("Input columns:", input_df.columns.tolist() if 'input_df' in locals() else "No input data")
-      

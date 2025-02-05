@@ -1,4 +1,4 @@
 snowflake-snowpark-python
 streamlit
 pandas
-sklearn
+scikit-learn

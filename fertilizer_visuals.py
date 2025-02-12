@@ -4,7 +4,7 @@ import plotly.express as px
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-from snowflake.snowpark.context import get_active_session
+from snowflake.snowpark import Session
 
 # Set Streamlit page config
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")

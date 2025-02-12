@@ -1,4 +1,7 @@
-snowflake-snowpark-python
 streamlit
 pandas
-scikit-learn
+plotly
+seaborn
+numpy
+matplotlib
+snowflake-snowpark-python

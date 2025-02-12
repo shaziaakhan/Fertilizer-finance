@@ -6,8 +6,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 from snowflake.snowpark.context import get_active_session
 
-session = get_active_session()
+# Set Streamlit page config
+st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
+# Function to establish a single Snowflake session
+@st.cache_resource
+def get_snowflake_session():
+    sf_options = {
+        "account": st.secrets["snowflake"]["account"],
+        "user": st.secrets["snowflake"]["user"],
+        "password": st.secrets["snowflake"]["password"],
+        "warehouse": st.secrets["snowflake"]["warehouse"],
+        "database": st.secrets["snowflake"]["database"],
+        "schema": st.secrets["snowflake"]["schema"],
+    }
+    return Session.builder.configs(sf_options).create()
+
+# Initialize the session only once
+session = get_snowflake_session()
 st.title("Fertilizer Production Dashboard in Snowflake")
 
 # Fetch Data from Snowflake

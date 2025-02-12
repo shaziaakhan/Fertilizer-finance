@@ -1,0 +1,71 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+from snowflake.snowpark.context import get_active_session
+
+session = get_active_session()
+
+st.title("Fertilizer Production Dashboard in Snowflake")
+
+# Fetch Data from Snowflake
+@st.cache_data
+def load_data():
+    query = "SELECT * FROM TEST_DB.PUBLIC.FERTILIZER"
+    df = session.sql(query).to_pandas()
+    return df
+
+df = load_data()
+
+# Convert Number Columns to Numeric
+numeric_cols = ["Actual Production", "Budget Production", "Actual Value", "Budget Value", "Budget Rate/MT", "Actual Rate/MT"]
+df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors='coerce')
+
+# Sidebar Filters
+st.sidebar.header("Filter Data")
+material_type = st.sidebar.selectbox("Select Material Type", df["M2_Material Type"].unique())
+filtered_df = df[df["M2_Material Type"] == material_type]
+
+# Visualization 1: Actual vs. Budget Production
+st.subheader("Actual vs Budget Production")
+fig1 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Production", "Budget Production"],
+              barmode="group", title="Actual vs Budget Production", color_discrete_sequence=["#636EFA", "#EF553B"])
+st.plotly_chart(fig1)
+st.write("**Interpretation:** This graph compares the actual and budgeted production for the selected material type. A gap between the bars indicates deviations from the expected production targets.")
+
+# Visualization 2: Actual vs Budget Value
+st.subheader("Actual vs Budget Value")
+fig2 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Value", "Budget Value"],
+              barmode="group", title="Actual vs Budget Value", color_discrete_sequence=["#00CC96", "#AB63FA"])
+st.plotly_chart(fig2)
+st.write("**Interpretation:** This chart shows the actual vs. budgeted value for the selected material type. Discrepancies suggest areas where financial expectations were not met.")
+
+# Visualization 3: Actual vs Budget Rate per MT
+st.subheader("Actual vs Budget Rate per MT")
+fig3 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Rate/MT", "Budget Rate/MT"],
+              barmode="group", title="Actual vs Budget Rate per MT",
+              color_discrete_sequence=["#FF5733", "#33FF57"])
+st.plotly_chart(fig3)
+st.write("**Interpretation:** If the actual rate per metric ton is higher than the budgeted rate, this might indicate inefficiencies or increased costs.")
+
+# 4th Visualization: Distribution of Actual Production
+st.subheader("Distribution of Actual Production")
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.histplot(filtered_df["Actual Production"], bins=20, kde=True, color="#FF5733", ax=ax)
+ax.set_title("Distribution of Actual Production", fontsize=14)
+st.pyplot(fig)
+st.write("**Interpretation:** This histogram provides an overview of the distribution of actual production values. A right-skewed distribution might indicate a few high-production outliers.")
+
+# 5th Visualization: Contour Plot of Actual vs Budget Production
+st.subheader("Contour Plot: Actual vs Budget Production")
+fig5, ax5 = plt.subplots(figsize=(8, 6))
+x = filtered_df["Actual Production"].dropna()
+y = filtered_df["Budget Production"].dropna()
+sns.kdeplot(x=x, y=y, cmap="Blues", fill=True, ax=ax5)
+ax5.set_xlabel("Actual Production")
+ax5.set_ylabel("Budget Production")
+ax5.set_title("Density Contour of Actual vs Budget Production")
+st.pyplot(fig5)
+st.write("**Interpretation:** The contour plot visualizes density regions for actual vs budgeted production. Darker areas indicate where values are more concentrated, revealing patterns in production performance.")

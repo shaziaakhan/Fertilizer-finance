@@ -32,8 +32,8 @@ def load_data():
 def prepare_data(df):
     df['Budget Cost/MT'] = pd.to_numeric(df['Budget Cost/MT'], errors='coerce')
     df['Actual Cost/MT'] = pd.to_numeric(df['Actual Cost/MT'], errors='coerce')
-    df['Budget Production'] = pd.to_numeric(df['Budget Production'], errors='coerce')
-    df['Budget Value'] = pd.to_numeric(df['Budget Value'], errors='coerce')
+    df['Budget Production'] = pd.to_numeric(df['BUDGET_PRODUCTION'], errors='coerce')
+    df['Budget Value'] = pd.to_numeric(df['BUDGET_VALUE'], errors='coerce')
     df['Budget Rate/MT'] = pd.to_numeric(df['Budget Rate/MT'], errors='coerce')
     
     df['Cost_Efficiency_Ratio'] = df['Budget Cost/MT'] / df['Actual Cost/MT']

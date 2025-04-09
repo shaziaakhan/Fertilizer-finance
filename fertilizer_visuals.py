@@ -46,21 +46,21 @@ filtered_df = df[df["M2_MATERIAL_TYPE"] == material_type]
 
 # Visualization 1: Actual vs. Budget Production
 st.subheader("Actual vs Budget Production")
-fig1 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Production", "Budget Production"],
+fig1 = px.bar(filtered_df, x="M2_MATERIAL_TYPE", y=["ACTUAL_PRODUCTION", "BUDGET_PRODUCTION"],
               barmode="group", title="Actual vs Budget Production", color_discrete_sequence=["#636EFA", "#EF553B"])
 st.plotly_chart(fig1)
 st.write("**Interpretation:** This graph compares the actual and budgeted production for the selected material type. A gap between the bars indicates deviations from the expected production targets.")
 
 # Visualization 2: Actual vs Budget Value
 st.subheader("Actual vs Budget Value")
-fig2 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Value", "Budget Value"],
+fig2 = px.bar(filtered_df, x="M2_MATERIAL_TYPE", y=["ACTUAL_VALUE", "BUDGET_VALUE"],
               barmode="group", title="Actual vs Budget Value", color_discrete_sequence=["#00CC96", "#AB63FA"])
 st.plotly_chart(fig2)
 st.write("**Interpretation:** This chart shows the actual vs. budgeted value for the selected material type. Discrepancies suggest areas where financial expectations were not met.")
 
 # Visualization 3: Actual vs Budget Rate per MT
 st.subheader("Actual vs Budget Rate per MT")
-fig3 = px.bar(filtered_df, x="M2_Material Type", y=["Actual Rate/MT", "Budget Rate/MT"],
+fig3 = px.bar(filtered_df, x="M2_MATERIAL_TYPE", y=["Actual Rate/MT", "Budget Rate/MT"],
               barmode="group", title="Actual vs Budget Rate per MT",
               color_discrete_sequence=["#FF5733", "#33FF57"])
 st.plotly_chart(fig3)
@@ -80,8 +80,8 @@ fig5, ax5 = plt.subplots(figsize=(8, 6))
 x = filtered_df["Actual Production"].dropna()
 y = filtered_df["Budget Production"].dropna()
 sns.kdeplot(x=x, y=y, cmap="Blues", fill=True, ax=ax5)
-ax5.set_xlabel("Actual Production")
-ax5.set_ylabel("Budget Production")
+ax5.set_xlabel("ACTUAL_PRODUCTION")
+ax5.set_ylabel("BUDGET_PRODUCTION")
 ax5.set_title("Density Contour of Actual vs Budget Production")
 st.pyplot(fig5)
 st.write("**Interpretation:** The contour plot visualizes density regions for actual vs budgeted production. Darker areas indicate where values are more concentrated, revealing patterns in production performance.")

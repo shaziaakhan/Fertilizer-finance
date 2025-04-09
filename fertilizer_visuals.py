@@ -69,7 +69,7 @@ st.write("**Interpretation:** If the actual rate per metric ton is higher than t
 # 4th Visualization: Distribution of Actual Production
 st.subheader("Distribution of Actual Production")
 fig, ax = plt.subplots(figsize=(10, 6))
-sns.histplot(filtered_df["Actual Production"], bins=20, kde=True, color="#FF5733", ax=ax)
+sns.histplot(filtered_df["ACTUAL_PRODUCTION"], bins=20, kde=True, color="#FF5733", ax=ax)
 ax.set_title("Distribution of Actual Production", fontsize=14)
 st.pyplot(fig)
 st.write("**Interpretation:** This histogram provides an overview of the distribution of actual production values. A right-skewed distribution might indicate a few high-production outliers.")
@@ -77,8 +77,8 @@ st.write("**Interpretation:** This histogram provides an overview of the distrib
 # 5th Visualization: Contour Plot of Actual vs Budget Production
 st.subheader("Contour Plot: Actual vs Budget Production")
 fig5, ax5 = plt.subplots(figsize=(8, 6))
-x = filtered_df["Actual Production"].dropna()
-y = filtered_df["Budget Production"].dropna()
+x = filtered_df["ACTUAL_PRODUCTION"].dropna()
+y = filtered_df["BUDGET_PRODUCTION"].dropna()
 sns.kdeplot(x=x, y=y, cmap="Blues", fill=True, ax=ax5)
 ax5.set_xlabel("ACTUAL_PRODUCTION")
 ax5.set_ylabel("BUDGET_PRODUCTION")

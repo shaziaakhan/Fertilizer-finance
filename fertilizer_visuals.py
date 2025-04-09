@@ -36,13 +36,13 @@ def load_data():
 df = load_data()
 
 # Convert Number Columns to Numeric
-numeric_cols = ["Actual Production", "Budget Production", "Actual Value", "Budget Value", "Budget Rate/MT", "Actual Rate/MT"]
+numeric_cols = ["ACTUAL_PRODUCTION", "BUDGET_PRODUCTION", "ACTUAL_VALUE", "BUDGET_VALUE", "Budget Rate/MT", "Actual Rate/MT"]
 df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors='coerce')
 
 # Sidebar Filters
 st.sidebar.header("Filter Data")
-material_type = st.sidebar.selectbox("Select Material Type", df["M2_Material Type"].unique())
-filtered_df = df[df["M2_Material Type"] == material_type]
+material_type = st.sidebar.selectbox("Select Material Type", df["M2_MATERIAL_TYPE"].unique())
+filtered_df = df[df["M2_MATERIAL_TYPE"] == material_type]
 
 # Visualization 1: Actual vs. Budget Production
 st.subheader("Actual vs Budget Production")

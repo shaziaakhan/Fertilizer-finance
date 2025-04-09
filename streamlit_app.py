@@ -79,7 +79,7 @@ try:
     input_data = {}
     
     categorical_cols = ['PL_COP: Applicable', 'PL_COP: Applicable: PL', 
-                        'PL_COP: Applicable: SKU', 'M2_Material Type']
+                        'PL_COP: Applicable: SKU', 'M2_MATERIAL_TYPE']
     for col in categorical_cols:
         unique_values = pd.Series(label_encoders[col].inverse_transform(df[col].unique()))
         input_data[col] = st.selectbox(f'Select {col}', unique_values)

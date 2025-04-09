@@ -52,7 +52,7 @@ def prepare_data(df):
 
 def train_model(df):
     features = ['PL_COP: Applicable', 'PL_COP: Applicable: PL', 
-                'PL_COP: Applicable: SKU', 'M2_Material Type',
+                'PL_COP: Applicable: SKU', 'M2_MATERIAL_TYPE',
                 'Budget Production', 'Budget Value', 'Budget Rate/MT']
     
     X = df[features]

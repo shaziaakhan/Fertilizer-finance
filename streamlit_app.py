@@ -41,7 +41,7 @@ def prepare_data(df):
     df.dropna(subset=['Cost_Efficiency_Ratio'], inplace=True)
     
     categorical_cols = ['PL_COP: Applicable', 'PL_COP: Applicable: PL', 
-                        'PL_COP: Applicable: SKU', 'M2_Material Type']
+                        'PL_COP: Applicable: SKU', 'M2_MATERIAL_TYPE']
     label_encoders = {}
     for col in categorical_cols:
         le = LabelEncoder()

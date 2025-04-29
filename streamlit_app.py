@@ -106,10 +106,12 @@ try:
         predicted_actual_cost = input_data['Budget Cost/MT'] / predicted_efficiency
         
         col1, col2 = st.columns(2)
+ 
         with col1:
-             st.metric('Budget Cost/MT', f"${input_data['Budget Cost/MT']:,.2f}")
+        st.markdown(f"**Budget Cost/MT:** ${input_data['Budget Cost/MT']:,.2f}")
+ 
         with col2:
-             st.metric('Predicted Actual Cost/MT', f"${predicted_actual_cost:,.2f}")
+        st.markdown(f"**Predicted Actual Cost/MT:** ${predicted_actual_cost:,.2f}")
  
         deviation = ((predicted_actual_cost - input_data['Budget Cost/MT']) / 
                     input_data['Budget Cost/MT'] * 100)

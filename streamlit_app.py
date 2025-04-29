@@ -107,33 +107,47 @@ try:
         
         col1, col2 = st.columns(2)
  
+
+        # Calculate deviation
+        deviation = ((predicted_actual_cost - input_data['Budget Cost/MT']) / 
+                     input_data['Budget Cost/MT']) * 100
+        
+        # Two columns for budget and predicted cost
+        col1, col2 = st.columns(2)
+        
         with col1:
             st.markdown(
                 f"""
-                <div style='text-align: center;'>
+                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #f0f2f6;'>
                     <span style='font-size:18px; font-weight:600;'>Budget Cost/MT</span><br>
                     <span style='font-size:28px; font-weight:bold; color:#1f77b4;'>${input_data['Budget Cost/MT']:,.2f}</span>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
+        
+        with col2:
+            st.markdown(
+                f"""
+                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #f0f2f6;'>
+                    <span style='font-size:18px; font-weight:600;'>Predicted Actual Cost/MT</span><br>
+                    <span style='font-size:28px; font-weight:bold; color:#ff7f0e;'>${predicted_actual_cost:,.2f}</span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        # Deviation displayed below
+        st.markdown(
+            f"""
+            <div style='margin-top: 20px; text-align: center; padding: 12px; border-radius: 8px; background-color: #fef3f3;'>
+                <span style='font-size:18px; font-weight:600;'>Predicted Deviation from Budget</span><br>
+                <span style='font-size:26px; font-weight:bold; color:#d62728;'>{deviation:.2f}%</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-            with col2:
-                st.markdown(
-                    f"""
-                    <div style='text-align: center;'>
-                        <span style='font-size:18px; font-weight:600;'>Predicted Actual Cost/MT</span><br>
-                        <span style='font-size:28px; font-weight:bold; color:#ff7f0e;'>${predicted_actual_cost:,.2f}</span>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
-
- 
-        deviation = ((predicted_actual_cost - input_data['Budget Cost/MT']) / 
-                    input_data['Budget Cost/MT'] * 100)
-        st.write(f'Predicted deviation from budget: {deviation:.2f}%')
 
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")

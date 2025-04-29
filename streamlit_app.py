@@ -118,9 +118,9 @@ try:
         with col1:
             st.markdown(
                 f"""
-                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #f0f2f6;'>
-                    <span style='font-size:18px; font-weight:600;'>Budget Cost/MT</span><br>
-                    <span style='font-size:28px; font-weight:bold; color:#1f77b4;'>${input_data['Budget Cost/MT']:,.2f}</span>
+                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #e0e0e0;'>
+                    <span style='font-size:18px; font-weight:600; color:black;'>Budget Cost/MT</span><br>
+                    <span style='font-size:28px; font-weight:bold; color:black;'>${input_data['Budget Cost/MT']:,.2f}</span>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -129,9 +129,9 @@ try:
         with col2:
             st.markdown(
                 f"""
-                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #f0f2f6;'>
-                    <span style='font-size:18px; font-weight:600;'>Predicted Actual Cost/MT</span><br>
-                    <span style='font-size:28px; font-weight:bold; color:#ff7f0e;'>${predicted_actual_cost:,.2f}</span>
+                <div style='text-align: center; padding: 10px; border-radius: 8px; background-color: #e0e0e0;'>
+                    <span style='font-size:18px; font-weight:600; color:black;'>Predicted Actual Cost/MT</span><br>
+                    <span style='font-size:28px; font-weight:bold; color:black;'>${predicted_actual_cost:,.2f}</span>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -140,14 +140,13 @@ try:
         # Deviation displayed below
         st.markdown(
             f"""
-            <div style='margin-top: 20px; text-align: center; padding: 12px; border-radius: 8px; background-color: #fef3f3;'>
-                <span style='font-size:18px; font-weight:600;'>Predicted Deviation from Budget</span><br>
-                <span style='font-size:26px; font-weight:bold; color:#d62728;'>{deviation:.2f}%</span>
+            <div style='margin-top: 20px; text-align: center; padding: 12px; border-radius: 8px; background-color: #e0e0e0;'>
+                <span style='font-size:18px; font-weight:600; color:black;'>Predicted Deviation from Budget</span><br>
+                <span style='font-size:26px; font-weight:bold; color:black;'>{deviation:.2f}%</span>
             </div>
             """,
             unsafe_allow_html=True
         )
-
 
 except Exception as e:
     st.error(f"An error occurred: {str(e)}")

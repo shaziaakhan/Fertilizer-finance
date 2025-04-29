@@ -108,10 +108,17 @@ try:
         col1, col2 = st.columns(2)
  
         with col1:
-            st.markdown(f"**Budget Cost/MT:** ${input_data['Budget Cost/MT']:,.2f}")
- 
+            st.markdown(
+                f"<p style='font-size:22px; font-weight:bold;'>Budget Cost/MT: ${input_data['Budget Cost/MT']:,.2f}</p>",
+                unsafe_allow_html=True
+    )
+
         with col2:
-            st.markdown(f"**Predicted Actual Cost/MT:** ${predicted_actual_cost:,.2f}")
+            st.markdown(
+                f"<p style='font-size:22px; font-weight:bold;'>Predicted Actual Cost/MT: ${predicted_actual_cost:,.2f}</p>",
+                unsafe_allow_html=True
+    )
+
  
         deviation = ((predicted_actual_cost - input_data['Budget Cost/MT']) / 
                     input_data['Budget Cost/MT'] * 100)

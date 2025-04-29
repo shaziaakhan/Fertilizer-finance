@@ -107,27 +107,27 @@ try:
         
         col1, col2 = st.columns(2)
  
-with col1:
-    st.markdown(
-        f"""
-        <div style='text-align: center;'>
-            <span style='font-size:18px; font-weight:600;'>Budget Cost/MT</span><br>
-            <span style='font-size:28px; font-weight:bold; color:#1f77b4;'>${input_data['Budget Cost/MT']:,.2f}</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        with col1:
+            st.markdown(
+                f"""
+                <div style='text-align: center;'>
+                    <span style='font-size:18px; font-weight:600;'>Budget Cost/MT</span><br>
+                    <span style='font-size:28px; font-weight:bold; color:#1f77b4;'>${input_data['Budget Cost/MT']:,.2f}</span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
-with col2:
-    st.markdown(
-        f"""
-        <div style='text-align: center;'>
-            <span style='font-size:18px; font-weight:600;'>Predicted Actual Cost/MT</span><br>
-            <span style='font-size:28px; font-weight:bold; color:#ff7f0e;'>${predicted_actual_cost:,.2f}</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+            with col2:
+                st.markdown(
+                    f"""
+                    <div style='text-align: center;'>
+                        <span style='font-size:18px; font-weight:600;'>Predicted Actual Cost/MT</span><br>
+                        <span style='font-size:28px; font-weight:bold; color:#ff7f0e;'>${predicted_actual_cost:,.2f}</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 
  

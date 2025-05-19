@@ -28,7 +28,7 @@ st.title('🌾 AgroEconomix™ – Predictive Analytics for Fertilizer Cost Effi
 
 @st.cache_data
 def load_data():
-    query = "SELECT * FROM FERTILIZER_FINAL"
+    query = "SELECT * FROM FERTILIZER"
     return session.sql(query).to_pandas()
 
 def prepare_data(df):
